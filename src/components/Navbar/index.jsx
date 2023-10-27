@@ -1,5 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 
+import { Brightness4, Brightness7 } from "@mui/icons-material";
+
 export const Navbar = ({ setLight }) => {
   return (
     <Box
@@ -22,7 +24,9 @@ export const Navbar = ({ setLight }) => {
         Rick And Morty Characters
       </Typography>
 
-      <Button onClick={() => setLight((prev) => !prev)}>Toggle Theme</Button>
+      <Button onClick={() => setLight((prev) => !prev)}>
+        {setLight ? <Brightness4 /> : <Brightness7 />}
+      </Button>
     </Box>
   );
 };
