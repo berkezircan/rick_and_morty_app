@@ -1,11 +1,12 @@
 import React from "react";
 
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Button from "@mui/material/Button";
+
+// Components & Pages
+import { Navbar } from "./components/Navbar";
 
 const themeLight = createTheme({
   palette: {
@@ -33,23 +34,8 @@ function App() {
       <ThemeProvider theme={light ? themeLight : themeDark}>
         <Box lg={{ width: "100%", maxWidth: 500 }}>
           <CssBaseline />
-          <Box
-            padding={"1rem"}
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              alignContent: "center",
-            }}
-          >
-            <Typography variant="h5" gutterBottom align="center">
-              Rick And Morty Characters
-            </Typography>
 
-            <Button onClick={() => setLight((prev) => !prev)}>
-              Toggle Theme
-            </Button>
-          </Box>
+          <Navbar light={light} setLight={setLight} />
         </Box>
       </ThemeProvider>
     </div>
