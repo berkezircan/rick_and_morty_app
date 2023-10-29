@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 
 import axios from "axios";
 import { CharacterListContainer } from "components/ListContainer";
+import { Box } from "@mui/material";
 
 const ListingPageComponent = () => {
   const listInnerRef = useRef();
@@ -16,6 +17,11 @@ const ListingPageComponent = () => {
         `https://rickandmortyapi.com/api/character/?page=${currPage}`
       );
 
+      if (!response.data.info.count) {
+        setLastList(true);
+        return;
+      }
+
       setPrevPage(currPage);
       setUserList([...userList, ...response.data.results]);
     };
@@ -27,21 +33,20 @@ const ListingPageComponent = () => {
   const onScroll = () => {
     if (listInnerRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
-      if (scrollTop + clientHeight + 10 > scrollHeight) {
+      if (scrollTop + clientHeight + 10 >= scrollHeight) {
         setCurrPage(currPage + 1);
       }
     }
   };
 
   return (
-    <div>
+    <Box style={{ marginBottom: "30px" }}>
       <CharacterListContainer
-        style={{ marginBottom: "10px" }}
         onScroll={onScroll}
         listInnerRef={listInnerRef}
         userList={userList}
       />
-    </div>
+    </Box>
   );
 };
 
