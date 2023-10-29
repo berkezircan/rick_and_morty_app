@@ -1,53 +1,57 @@
-import React, { useRef, useEffect, useState } from "react";
-
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { CharacterListContainer } from "components/ListContainer";
-import { Box } from "@mui/material";
 
-const ListingPageComponent = () => {
-  const listInnerRef = useRef();
-  const [currPage, setCurrPage] = useState(1);
-  const [prevPage, setPrevPage] = useState(0);
-  const [userList, setUserList] = useState([]);
-  const [lastList, setLastList] = useState(false);
+function RickAndMortyCharacters() {
+  const [characters, setCharacters] = useState([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `https://rickandmortyapi.com/api/character/?page=${currPage}`
-      );
-
-      if (!response.data.info.count) {
-        setLastList(true);
-        return;
+      try {
+        const response = await axios.get(
+          `https://rickandmortyapi.com/api/character/?page=${page}`
+        );
+        const newCharacters = response.data.results;
+        setCharacters((prevCharacters) => [
+          ...prevCharacters,
+          ...newCharacters,
+        ]);
+      } catch (error) {
+        console.error(error);
       }
-
-      setPrevPage(currPage);
-      setUserList([...userList, ...response.data.results]);
     };
-    if (!lastList && prevPage !== currPage) {
-      fetchData();
-    }
-  }, [currPage, lastList, prevPage, userList]);
 
-  const onScroll = () => {
-    if (listInnerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
-      if (scrollTop + clientHeight + 10 >= scrollHeight) {
-        setCurrPage(currPage + 1);
-      }
+    fetchData();
+  }, [page]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      setPage((prevPage) => prevPage + 1);
     }
   };
 
-  return (
-    <Box style={{ marginBottom: "30px" }}>
-      <CharacterListContainer
-        onScroll={onScroll}
-        listInnerRef={listInnerRef}
-        userList={userList}
-      />
-    </Box>
-  );
-};
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-export default ListingPageComponent;
+  return (
+    <div>
+      <h1>Rick and Morty Characters</h1>
+      <ul>
+        {characters.map((character) => (
+          <li style={{ padding: "20px" }} key={character.id}>
+            {character.name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default RickAndMortyCharacters;
