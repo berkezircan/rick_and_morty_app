@@ -25,21 +25,30 @@ export const UserStatus = ({ status }) => {
         return (
           <>
             <span>Alive</span>
-            <Paper style={{ ...styles.circle, ...styles.greenCircle }} />
+            <Paper
+              data-testid="green-circle"
+              style={{ ...styles.circle, ...styles.greenCircle }}
+            />
           </>
         );
       case "Dead":
         return (
           <>
             <span>Dead</span>
-            <Paper style={{ ...styles.circle, ...styles.redCircle }} />
+            <Paper
+              data-testid="red-circle"
+              style={{ ...styles.circle, ...styles.redCircle }}
+            />
           </>
         );
       default:
         return (
           <>
             <span>Unknown</span>
-            <Paper style={{ ...styles.circle, ...styles.grayCircle }} />
+            <Paper
+              data-testid="gray-circle"
+              style={{ ...styles.circle, ...styles.grayCircle }}
+            />
           </>
         );
     }
