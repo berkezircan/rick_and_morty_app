@@ -8,7 +8,6 @@ const ListingPageComponent = () => {
   const [currPage, setCurrPage] = useState(1);
   const [prevPage, setPrevPage] = useState(0);
   const [userList, setUserList] = useState([]);
-  // const [accumulator, setAccumulator] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,22 +39,23 @@ const ListingPageComponent = () => {
         setCurrPage(currPage + 1);
       }
     }
-  }, 200);
-
+  }, 500);
   useEffect(() => {
-    listInnerRef.current.addEventListener("scroll", onScrollThrottled);
+    if (listInnerRef.current) {
+      listInnerRef.current.addEventListener("scroll", onScrollThrottled);
+    }
 
     return () => {
-      listInnerRef.current.removeEventListener("scroll", onScrollThrottled);
+      if (listInnerRef.current) {
+        listInnerRef.current.removeEventListener("scroll", onScrollThrottled);
+      }
     };
-  }, [onScrollThrottled, listInnerRef.current]);
-
-  console.log(userList.length);
+  }, [onScrollThrottled]);
 
   return (
     <Box style={{ marginBottom: "30px" }}>
       <CharacterListContainer
-        onScroll={onScrollThrottled} // Use the throttled function
+        onScroll={onScrollThrottled}
         listInnerRef={listInnerRef}
         userList={userList}
       />
