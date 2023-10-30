@@ -16,7 +16,13 @@ export const CharacterListContainer = ({
       ref={listInnerRef}
       style={{ height: "100vh", overflowY: "auto" }}
     >
-      <Grid container padding={"40px"} maxWidth={"1100px"} margin={"0 auto"}>
+      <Grid
+        container
+        padding={"40px"}
+        maxWidth={"1100px"}
+        margin={"0 auto"}
+        data-testid="list-container"
+      >
         {userList.map((item) => {
           return <UserCard key={item.id} item={item} />;
         })}
