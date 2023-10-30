@@ -13,7 +13,10 @@ import { Navbar } from "./components/Navbar";
 const themeLight = createTheme({
   palette: {
     background: {
-      default: "#e4f0e2",
+      default: "rgb(39, 43, 51)",
+    },
+    text: {
+      primary: "#ffffff",
     },
   },
 });

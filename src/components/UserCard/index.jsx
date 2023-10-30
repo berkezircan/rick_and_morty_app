@@ -14,31 +14,45 @@ import { UserStatus } from "./UserStatus";
 export const UserCard = ({ item }) => {
   return (
     <Grid item xs={4} marginBottom={"40px"}>
-      <Card sx={{ maxWidth: 275 }}>
+      <Card
+        sx={{ maxWidth: 275 }}
+        style={{
+          background: "rgb(60, 62, 68)",
+          color: "#fff",
+          border: "1px solid #111",
+        }}
+      >
         <CardMedia
           sx={{ height: 180, objectFit: "contain" }}
           image={item.image}
-          title="green iguana"
+          title={item.name}
         />
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          <Typography variant="h5" color="text.white" gutterBottom>
             {item.name}
           </Typography>
-          <Typography variant="h5" component="div">
+          <Typography sx={{ fontSize: 16 }} component="div">
             <UserStatus status={item.status} />
           </Typography>
-          <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            adjective
+          <Typography sx={{ mb: 1.5 }} color="text.white">
+            {item.gender}
           </Typography>
           <Typography variant="body2">
-            well meaning and kindly.
-            <br />
-            {'"a benevolent smile"'}
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi,
+            incidunt explicabo nobis voluptates modi dolore voluptas mollitia
+            maiores deserunt quaerat?
           </Typography>
         </CardContent>
         <CardActions>
           <Link to={`/character/${item.id}`}>
-            <Button size="small">Learn More</Button>
+            <Button
+              sx={{ width: 250 }}
+              variant="contained"
+              size="small"
+              fullWidth
+            >
+              Learn More
+            </Button>
           </Link>
         </CardActions>
       </Card>
