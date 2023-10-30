@@ -35,7 +35,7 @@ const ListingPageComponent = () => {
     if (listInnerRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
 
-      if (scrollTop + clientHeight + 10 >= scrollHeight) {
+      if (scrollTop + clientHeight + 100 >= scrollHeight) {
         setCurrPage(currPage + 1);
       }
     }
