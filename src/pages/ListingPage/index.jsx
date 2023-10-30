@@ -1,14 +1,14 @@
 import React, { useRef, useEffect, useState } from "react";
-
 import { CharacterListContainer } from "components/ListContainer";
 import { Box } from "@mui/material";
+import throttle from "lodash/throttle";
 
 const ListingPageComponent = () => {
   const listInnerRef = useRef();
   const [currPage, setCurrPage] = useState(1);
   const [prevPage, setPrevPage] = useState(0);
   const [userList, setUserList] = useState([]);
-  const [accumulator, setAccumulator] = useState(1);
+  // const [accumulator, setAccumulator] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,22 +32,30 @@ const ListingPageComponent = () => {
     }
   }, [currPage, prevPage, userList]);
 
-  const onScroll = () => {
+  const onScrollThrottled = throttle(() => {
     if (listInnerRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
 
-      if (scrollTop + clientHeight + accumulator >= scrollHeight) {
+      if (scrollTop + clientHeight + 10 >= scrollHeight) {
         setCurrPage(currPage + 1);
-
-        accumulator < 2 && setAccumulator(1 + currPage * 0.01);
       }
     }
-  };
+  }, 200);
+
+  useEffect(() => {
+    listInnerRef.current.addEventListener("scroll", onScrollThrottled);
+
+    return () => {
+      listInnerRef.current.removeEventListener("scroll", onScrollThrottled);
+    };
+  }, [onScrollThrottled, listInnerRef.current]);
+
+  console.log(userList.length);
 
   return (
     <Box style={{ marginBottom: "30px" }}>
       <CharacterListContainer
-        onScroll={onScroll}
+        onScroll={onScrollThrottled} // Use the throttled function
         listInnerRef={listInnerRef}
         userList={userList}
       />
