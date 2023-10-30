@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
 
-import axios from "axios";
 import { CharacterListContainer } from "components/ListContainer";
 import { Box } from "@mui/material";
 
@@ -13,12 +12,19 @@ const ListingPageComponent = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
+      const response = await fetch(
         `https://rickandmortyapi.com/api/character/?page=${currPage}`
       );
 
+      const { results, info } = await response.json();
+
       setPrevPage(currPage);
-      setUserList([...userList, ...response.data.results]);
+
+      if (currPage === info.pages) {
+        return;
+      }
+
+      setUserList([...userList, ...results]);
     };
 
     if (prevPage !== currPage) {
