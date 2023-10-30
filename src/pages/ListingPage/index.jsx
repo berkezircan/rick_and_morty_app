@@ -33,14 +33,10 @@ const ListingPageComponent = () => {
       if (scrollTop + clientHeight + accumulator >= scrollHeight) {
         setCurrPage(currPage + 1);
 
-        console.log(accumulator);
-
         accumulator < 2 && setAccumulator(1 + currPage * 0.01);
       }
     }
   };
-
-  console.log(userList.length);
 
   return (
     <Box style={{ marginBottom: "30px" }}>
