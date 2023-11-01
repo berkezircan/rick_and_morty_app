@@ -55,7 +55,11 @@ function SingleCharacterPage() {
           <Box marginLeft={"40px"}>
             <Typography variant="h4">Last 5 Episodes</Typography>
             {lastFiveEpisode.map((episode, idx) => (
-              <Typography key={idx} variant="h5">
+              <Typography
+                key={idx}
+                variant="p"
+                sx={{ display: "block", fontStyle: "italic" }}
+              >
                 {episode}
               </Typography>
             ))}
