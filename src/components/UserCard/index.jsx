@@ -26,6 +26,7 @@ export const UserCard = ({ item }) => {
           sx={{ height: 180, objectFit: "contain" }}
           image={item.image}
           title={item.name}
+          loading="lazy"
         />
         <CardContent>
           <Typography variant="h5" color="text.white" gutterBottom>
