@@ -24,7 +24,10 @@ export const Navbar = ({ setLight }) => {
         Rick And Morty Characters
       </Typography>
 
-      <Button onClick={() => setLight((prev) => !prev)}>
+      <Button
+        data-testid="toggle-theme"
+        onClick={() => setLight((prev) => !prev)}
+      >
         {setLight ? <Brightness4 /> : <Brightness7 />}
       </Button>
     </Box>
