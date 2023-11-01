@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
 import { UserStatus } from "components/UserCard/UserStatus";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { useCharacterContext } from "context/CharacterContext";
@@ -10,9 +10,13 @@ function SingleCharacterPage() {
 
   const { character, lastFiveEpisode, getCharacter } = useCharacterContext();
 
-  useEffect(() => {
+  const memoizedGetCharacter = useCallback(() => {
     getCharacter(id);
   }, [id, getCharacter]);
+
+  useEffect(() => {
+    memoizedGetCharacter();
+  }, []);
 
   return (
     <Box padding={"40px"}>
