@@ -17,3 +17,11 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 - context-api
 - material-ui
 - lodash
+
+## Homepage
+
+<img src='/public/images/rick-any-morty-1.png' alt='anasayfa'>
+
+## User Detail Page
+
+<img src='/public/images/rick-and-morty-2.png' alt='user-detail'>
