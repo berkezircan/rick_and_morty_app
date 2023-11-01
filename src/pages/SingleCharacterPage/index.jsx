@@ -1,49 +1,18 @@
 import { Box, Button, Typography } from "@mui/material";
 import { UserStatus } from "components/UserCard/UserStatus";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
-function SingleCharacterPage() {
-  const [character, setCharacter] = useState(null);
-  const [lastFiveEpisode, setLastFiveEpisode] = useState([]);
+import { useCharacterContext } from "context/CharacterContext";
 
+function SingleCharacterPage() {
   const { id } = useParams();
 
+  const { character, lastFiveEpisode, getCharacter } = useCharacterContext();
+
   useEffect(() => {
-    fetch(`https://rickandmortyapi.com/api/character/${id}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setCharacter(data);
-
-        getEpisode(data.episode.slice(-5));
-      })
-      .catch((error) => {
-        console.error("Error fetching character:", error);
-      });
-  }, [id]);
-
-  const getEpisode = async (urls) => {
-    try {
-      const episodeNames = await Promise.all(
-        urls.map(async (currentUrl) => {
-          const response = await fetch(currentUrl);
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          const { name } = await response.json();
-          return name;
-        })
-      );
-      setLastFiveEpisode(episodeNames);
-    } catch (error) {
-      console.error("Error fetching episodes:", error);
-    }
-  };
+    getCharacter(id);
+  }, [id, getCharacter]);
 
   return (
     <Box padding={"40px"}>
@@ -85,8 +54,10 @@ function SingleCharacterPage() {
 
           <Box marginLeft={"40px"}>
             <Typography variant="h4">Last 5 Episodes</Typography>
-            {lastFiveEpisode.map((episode) => (
-              <Typography variant="h5">{episode}</Typography>
+            {lastFiveEpisode.map((episode, idx) => (
+              <Typography key={idx} variant="h5">
+                {episode}
+              </Typography>
             ))}
           </Box>
         </Box>
