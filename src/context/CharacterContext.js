@@ -7,6 +7,25 @@ export const useCharacterContext = () => useContext(CharacterContext);
 export const CharacterProvider = ({ children }) => {
   const [character, setCharacter] = useState(null);
   const [lastFiveEpisode, setLastFiveEpisode] = useState([]);
+  const [currPage, setCurrPage] = useState(1);
+  const [prevPage, setPrevPage] = useState(0);
+  const [userList, setUserList] = useState([]);
+
+  const fetchCharacters = async () => {
+    const response = await fetch(
+      `https://rickandmortyapi.com/api/character/?page=${currPage}`
+    );
+
+    const { results, info } = await response.json();
+
+    setPrevPage(currPage);
+
+    if (currPage === info.pages) {
+      return;
+    }
+
+    setUserList([...userList, ...results]);
+  };
 
   const getCharacter = (id) => {
     fetch(`https://rickandmortyapi.com/api/character/${id}`)
@@ -46,7 +65,18 @@ export const CharacterProvider = ({ children }) => {
 
   return (
     <CharacterContext.Provider
-      value={{ character, lastFiveEpisode, getCharacter }}
+      value={{
+        character,
+        lastFiveEpisode,
+        getCharacter,
+        currPage,
+        setCurrPage,
+        prevPage,
+        setPrevPage,
+        userList,
+        setUserList,
+        fetchCharacters,
+      }}
     >
       {children}
     </CharacterContext.Provider>

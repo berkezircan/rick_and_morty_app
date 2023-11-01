@@ -1,33 +1,18 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { CharacterListContainer } from "components/ListContainer";
 import { Box } from "@mui/material";
 import throttle from "lodash/throttle";
+import { useCharacterContext } from "context/CharacterContext";
 
 const ListingPageComponent = () => {
   const listInnerRef = useRef();
-  const [currPage, setCurrPage] = useState(1);
-  const [prevPage, setPrevPage] = useState(0);
-  const [userList, setUserList] = useState([]);
+
+  const { currPage, setCurrPage, userList, prevPage, fetchCharacters } =
+    useCharacterContext();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(
-        `https://rickandmortyapi.com/api/character/?page=${currPage}`
-      );
-
-      const { results, info } = await response.json();
-
-      setPrevPage(currPage);
-
-      if (currPage === info.pages) {
-        return;
-      }
-
-      setUserList([...userList, ...results]);
-    };
-
     if (prevPage !== currPage) {
-      fetchData();
+      fetchCharacters();
     }
   }, [currPage, prevPage, userList]);
 
@@ -50,7 +35,7 @@ const ListingPageComponent = () => {
         listInnerRef.current.removeEventListener("scroll", onScrollThrottled);
       }
     };
-  }, [onScrollThrottled]);
+  }, [onScrollThrottled, listInnerRef.current]);
 
   return (
     <Box style={{ marginBottom: "30px" }}>
